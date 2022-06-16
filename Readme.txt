@@ -10,3 +10,5 @@ Description: The file above is the .html file which was generated upon knitting 
 
 3. tourists-rj-2006-2019.csv
 Description: The .csv is the copy of dataset that was use for the current assignment. 
+
+The details about the assignment can be found the .html or .rmd mentioned above. Thanks!
