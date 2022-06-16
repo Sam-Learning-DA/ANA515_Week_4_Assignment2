@@ -1,0 +1,85 @@
+---
+title: 'Assignment #2 - Rio De Janeiro Tourist Data'
+author: "Samruddha Pophli"
+date: '2022-06-16'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Tourist Arrivals in Rio de Janeiro 2006-2019
+
+This Dataset contains information about the number of tourists that visited the city of Rio de Janeiro (Brazil) by means of Airways or Seaways from the different parts (country) of the world between year 2006 to 2019. Source of the Data is 'Rio.com' and the data is collected and managed by the government of 'Rio De Janeiro'. 
+
+The Dataset can be used to predict the number of Tourist that may arrive to Rio De Janeiro in the years to come based on the historical data given in the dataset.The dataset can also be used to define tourism promotions strategies to promote Rio De Janeiro. 
+It can be also used by the Travels & Tourism Companies to design travel packages for the ones travelling to Rio de Janeiro from the different parts of the world. 
+
+The data is well-structured and available in the CSV format. 
+
+Following are the columns in the dataset: 
+País: (Country),
+Total: (Total Number of Tourists arrived),
+Aérea: (Number of Tourists arrived by Air),
+Marítima: (Number of Tourists arrived by Sea),
+Região: (Continent Region),
+Continente: (Continent),
+Ano: (Year).
+
+As the dataset is in csv format, I am going to use read_csv function to open it. 
+
+```{r loadpackages, echo=TRUE}
+
+#loading the package library
+library(kableExtra)
+library(tidyverse)
+library(knitr)
+```
+
+```{r rioData, echo = TRUE}
+
+#As the dataset is in csv format, using the read_csv function that comes from the tidyverse package to open the dataset in R. 
+
+rio_dataset <- read_csv("~/Desktop/tourists-rj-2006-2019.csv")
+
+#assigning the dataset to a dataframe object 'rio_df'
+rio_df <- data_frame(rio_dataset)
+
+```
+
+
+
+```{r data-cleaning, echo = TRUE}
+
+#The column names are written in portugese language. Renaming the Column Names to English using colnames function: 
+colnames(rio_df) <- c('Country', 'Total', 'Airways', 'Seaways', 'Region', 'Continent', 'Year')
+
+#droping the Column 'Region' and 'Continent' from the Dataframe object
+rio_df = subset(rio_df, select = -c(Region,Continent))
+```
+
+This dataframe has `r nrow(rio_df)` rows and `r ncol(rio_df)` columns. The names of the columns and a brief description of each are in the table below:
+
+```{r col-dscrptn, echo=FALSE} 
+
+text_tbl <- data.frame(
+  ColumnName = c('Country', 'Total', 'Airways', 'Seaways', 'Year'),
+  Description = c(
+    "Country Name: Where the Tourist came from ",
+    "The Total Number of Tourist arrived to Rio ", 
+    "Tourist arrived to Rio via Airways ", "Tourist arrived to Rio via Seaways ", "Year when the tourists arrived. "
+  )
+)
+kbl(text_tbl) %>%
+  kable_paper(full_width = F) %>%
+  column_spec(1, bold = T, border_right = T) %>%
+  column_spec(2, width = "30em", background = "")
+```
+
+```{r rio-summary, echo = TRUE} 
+#dropping Column 'Counntry' and 'Year' from the rio_df and assigning to new data frame object
+rio_summary = subset(rio_df, select = -c(Country,Year))
+#Summary for the Columns Total, Airways, Seaways are below:
+summary(rio_summary)
+```
